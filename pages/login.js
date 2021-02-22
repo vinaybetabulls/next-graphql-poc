@@ -21,6 +21,7 @@ const Login = () => {
     >
       <Form.Item
         name="username"
+        label="Username"
         rules={[
           {
             required: true,
@@ -32,6 +33,7 @@ const Login = () => {
       </Form.Item>
       <Form.Item
         name="password"
+        label="Password"
         rules={[
           {
             required: true,
