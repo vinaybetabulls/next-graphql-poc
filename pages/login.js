@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Form, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -10,7 +10,7 @@ import Spinner from "../components/Spin";
 
 const Login = () => {
   const [isSpin, setSpin] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
   const onFinish = (values) => {
     setSpin(true);
     console.log("Received values of form: ", values);
@@ -22,7 +22,9 @@ const Login = () => {
 
   return (
     <>
-      {isSpin && <Spinner message="Login" description="Please while loging.."></Spinner>}
+      {isSpin && (
+        <Spinner message="Login" description="Please while loging.."></Spinner>
+      )}
       <Form
         name="normal_login"
         className={styles.loginform}
@@ -72,7 +74,6 @@ const Login = () => {
             Forgot password
           </a>
         </Form.Item>
-
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className="loginFormButton">
