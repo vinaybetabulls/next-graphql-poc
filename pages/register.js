@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Checkbox, Select, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Field } from '../components/CustomField';
 import Link from "next/link";
+import {useRouter} from "next/router";
 import styles from "../styles/Register.module.css";
+import Spinner from "../components/Spin";
 
 const Register = () => {
+    const [isSpin, setSpin] = useState(false);
+    const router = useRouter();
     const onFinish = (values) => {
+        setSpin(true);
         console.log('Received values of form: ', values);
+        setTimeout(() => {
+            setSpin(false);
+            router.push("/"); // TODO: after successfull register navigate to Home page..
+          }, 3000);
     }
 
     const { Option } = Select;
@@ -15,13 +24,15 @@ const Register = () => {
     const prefixSelector = (
         <Form.Item name="prefix" noStyle>
           <Select style={{ width: 70 }}>
-            <Option value="86">+86</Option>
-            <Option value="87">+87</Option>
+            <Option value="91">+91</Option>
+            <Option value="44">+44</Option>
           </Select>
         </Form.Item>
       );
 
     return (
+        <>
+      {isSpin && <Spinner message="Register" description="Please wait while registering you ..."></Spinner>}
         <Form
             name="normal_register"
             className={styles.registerform}
@@ -90,12 +101,12 @@ const Register = () => {
                 <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
-                name="agreement"
+                name="remember"
                 valuePropName="checked"
                 rules={[
                     {
                         validator: (_, value) =>
-                            value ? Promise.resolve() : Promise.reject('Should accept agreement'),
+                            value ? Promise.resolve() : Promise.reject('Please remember details'),
                     },
                 ]}
                 // {...tailFormItemLayout}
@@ -110,6 +121,7 @@ const Register = () => {
         </Button>
             </Form.Item>
         </Form>
+        </>
     )
 }
 
