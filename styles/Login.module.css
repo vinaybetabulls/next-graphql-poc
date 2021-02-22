@@ -1,0 +1,14 @@
+/* @import '~antd/dist/antd.css'; */
+
+.loginform {
+  max-width: 300px;
+}
+.loginFormForgot {
+  float: right;
+}
+.loginFormForgot {
+  float: left;
+}
+.loginFormButton {
+  width: 100%;
+}
