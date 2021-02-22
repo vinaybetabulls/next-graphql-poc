@@ -6,7 +6,7 @@ const LayoutComponent = ({ children }) => {
   return (
     <Layout>
       <HeaderComponent />
-      <div style={{marginTop:"64px", padding:"34px"}}>{children}</div>
+      <div style={{marginTop: "64px", padding: "34px"}}>{children}</div>
       <FooterComponent />
     </Layout>
   );
