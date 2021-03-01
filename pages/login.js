@@ -3,17 +3,43 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Form, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Field } from "../components/CustomField";
+import { gql, useMutation } from "@apollo/client";
 
-import styles from "../styles/Login.module.css";
+// component import
+import AlertMessage from "../components/Alert";
+import { Field } from "../components/CustomField";
 import Spinner from "../components/Spin";
 
+import styles from "../styles/Login.module.css";
+
+const LOGIN_QUERY = gql`
+  mutation LoginQuery($email: String!, $password: String!) {
+    Login(email: $email, password: $password) {
+      __typename
+      ... on UserLogin {
+        jwt
+        email
+      }
+      ...on UserError {
+        message
+      }
+    }
+  }
+`;
 const Login = () => {
   const [isSpin, setSpin] = useState(false);
+  const [Login, { loading }] = useMutation(LOGIN_QUERY, {
+    onCompleted: (response) => console.log("onCompleted", response),
+    onError: (error) => console.log("onError", error),
+  });
   // const router = useRouter();
   const onFinish = (values) => {
     setSpin(true);
     console.log("Received values of form: ", values);
+    console.log("loading", loading);
+
+    Login({ variables: { email: values.username, password: values.password } });
+    console.log("after query loaing..", loading);
     setTimeout(() => {
       setSpin(false);
       // router.push("/"); // TODO: after successfull login navigate to products page..
