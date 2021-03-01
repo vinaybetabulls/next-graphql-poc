@@ -28,8 +28,17 @@ const LOGIN_QUERY = gql`
 `;
 const Login = () => {
   const [isSpin, setSpin] = useState(false);
+  const [message, setMessage] = useState();
+  const [type, setType] = useState();
   const [Login, { loading }] = useMutation(LOGIN_QUERY, {
-    onCompleted: (response) => console.log("onCompleted", response),
+    onCompleted: (response) => {
+      console.log("onCompleted", response);
+      if(response.Login.__typename === "UserError") {
+        setMessage(response.Login.message);
+        setType("error");
+      }
+      setSpin(false);
+    },
     onError: (error) => console.log("onError", error),
   });
   // const router = useRouter();
@@ -41,7 +50,7 @@ const Login = () => {
     Login({ variables: { email: values.username, password: values.password } });
     console.log("after query loaing..", loading);
     setTimeout(() => {
-      setSpin(false);
+      // setSpin(false);
       // router.push("/"); // TODO: after successfull login navigate to products page..
     }, 3000);
   };
@@ -51,6 +60,7 @@ const Login = () => {
       {isSpin && (
         <Spinner message="Login" description="Please while loging.."></Spinner>
       )}
+      {message && type ? <AlertMessage message={message} type={type} /> : <></>}
       <Form
         name="normal_login"
         className={styles.loginform}
